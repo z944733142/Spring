@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+ http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--id表示获取到的对象的表示-->
+    <bean id="peo" class="com.pojo.People">
+        <!--构造器创建赋值ref 引用bean value 基本数据类型 String等-->
+        <!--<constructor-arg name="id" value="1"></constructor-arg>-->
+        <!--<constructor-arg index="1" value="张三"></constructor-arg>-->
+
+        <!--set方法赋值 两种写法-->
+        <property name="name" value="小张"></property>
+        <property name="id" >
+            <value>456</value>
+        </property>
+        <!--属性是Set-->
+        <property name="sets">
+            <set>
+                <value>
+                    20
+                </value>
+                <value>
+                    30
+                </value>
+            </set>
+        </property>
+        <!--属性是List-->
+        <property name="list">
+            <list>
+                <value>
+                    aaaa
+                </value>
+                <value>
+                    youhouhou
+                </value>
+            </list>
+        </property>
+
+        <!--List只有一个值直接用value <property name="list" value="1"></property>-->
+
+        <!--数组赋值-->
+        <property name="arrays">
+            <array>
+                <value>
+                    a
+                </value>
+                <value>
+                    c
+                </value>
+            </array>
+        </property>
+
+        <!--数组只有一个值直接用value <property name="arrays" value="a"></property>-->
+
+
+        <!--map赋值set方法-->
+        <property name="map">
+            <map>
+                <entry key="a" value="a1"></entry>
+                <entry>
+                    <key>
+                        <value>b</value>
+                    </key>
+                    <value>b1</value>
+                </entry>
+            </map>
+        </property>
+    <!--property赋值-->
+        <!--<property name="demo">-->
+            <!--<props>-->
+                <!--<prop key="key">value</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <property name="dog" ref="aDog"></property>
+    </bean>
+    <bean id="aDog" class="com.pojo.Dog">
+        <property name="name" value="luck"></property>
+        <property name="age" value="2"></property>
+    </bean>
+
+
+    <!--实例工厂-->
+    <bean id="peopleFactory" class="com.Factory.PeopleFactory"></bean>
+    <bean id="man" factory-bean="peopleFactory" factory-method="newInstance">
+        <constructor-arg value="3"/>
+    </bean>
+    <!--静态工厂-->
+    <bean id="staticPeopleFactory" class="com.Factory.StaticPeopleFactory" factory-method="newInstance">
+        <constructor-arg value="3"/>
+    </bean>
+</beans>
