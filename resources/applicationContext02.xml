@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+ http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop
+ http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!--                                     AOP aspectJ配置-->
+    <bean id="aspectJdemo" class="com.aop.aspectJ.AspectJDemo"></bean>
+    <bean id="aspect" class="com.aop.aspectJ.AspectJ"></bean>
+    <aop:config>
+        <aop:aspect ref="aspect">
+            <aop:pointcut id="point" expression="execution(* com.aop.aspectJ.AspectJDemo.Method1())"></aop:pointcut>
+            <aop:around method="arround" pointcut-ref="point"></aop:around>
+            <aop:after method="MyAfter" pointcut-ref="point"></aop:after>
+            <aop:before method="MyBefore" pointcut-ref="point"></aop:before>
+            <aop:after-returning method="MyAfter" pointcut-ref="point"></aop:after-returning>
+            <aop:after-throwing method="MyThrows" pointcut-ref="point"></aop:after-throwing>
+        </aop:aspect>
+    </aop:config>
+
+    <!--                                   AOP 环绕通知                          -->
+    <bean id="demo" class="com.aop.AopDemo01"></bean>
+    <bean id="arround" class="com.aop.Arround.MyArround"></bean>
+    <aop:config>
+        <aop:pointcut id="method" expression="execution(* com.aop.AopDemo01.ArroundTest())"></aop:pointcut>
+        <aop:advisor advice-ref="arround" pointcut-ref="method"></aop:advisor>
+    </aop:config>
+</beans>

@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
  http://www.springframework.org/schema/beans
- http://www.springframework.org/schema/beans/spring-beans.xsd">
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop
+ http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--                             AOP     异常 (aspectJ)                                 -->
+    <bean id="demo" class="com.aop.AopDemo01"></bean>
+    <bean id="exceptiondemo" class="com.aop.ThrowAdvice.ThrowadviceDemo01"></bean>
+    <aop:config>
+        <aop:aspect ref="exceptiondemo">
+            <aop:pointcut id="myexceptionpoint" expression="execution(* com.aop.AopDemo01.ExceptionTest())"></aop:pointcut>
+            <aop:after-throwing method="myException" pointcut-ref="myexceptionpoint" throwing="e"/>
+        </aop:aspect>
+
+    </aop:config>
+    <!--                             AOP     （scheme-based）                            -->
+
+    <!--配置测试类-->
+    <bean id="aopdemo" class="com.aop.AopDemo01"></bean>
+    <!--配置通知类-->
+    <bean id="mybefore" class="com.aop.advice.MyBeforeAdvice"></bean>
+    <bean id="myafter" class="com.aop.advice.MyAfterAdvice"></bean>
+    <!--配置切面-->
+    <aop:config>
+        <!--配置切点-->
+        <aop:pointcut id="mypoint" expression="execution(* com.aop.AopDemo01.Method1())"></aop:pointcut>
+        <!--配置通知-->
+        <aop:advisor advice-ref="mybefore" pointcut-ref="mypoint"></aop:advisor>
+        <aop:advisor advice-ref="myafter" pointcut-ref="mypoint"></aop:advisor>
+
+    </aop:config>
+   <!--                             IOC                                  -->
     <!--id表示获取到的对象的表示-->
     <bean id="peo" class="com.pojo.People">
         <!--构造器创建赋值ref 引用bean value 基本数据类型 String等-->
@@ -12,7 +42,7 @@
 
         <!--set方法赋值 两种写法-->
         <property name="name" value="小张"></property>
-        <property name="id" >
+        <property name="id">
             <value>456</value>
         </property>
         <!--属性是Set-->
@@ -67,11 +97,11 @@
                 </entry>
             </map>
         </property>
-    <!--property赋值-->
+        <!--property赋值-->
         <!--<property name="demo">-->
-            <!--<props>-->
-                <!--<prop key="key">value</prop>-->
-            <!--</props>-->
+        <!--<props>-->
+        <!--<prop key="key">value</prop>-->
+        <!--</props>-->
         <!--</property>-->
         <property name="dog" ref="aDog"></property>
     </bean>
